@@ -2,28 +2,43 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent] // Cambia aquí de 'declarations' a 'imports'
     }).compileComponents();
+
+    // Creamos una instancia del componente
+    const fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should create the app component', () => {
+    expect(component).toBeTruthy();
   });
 
-  it(`should have the 'FirstProject' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('FirstProject');
+  it('should log message on calling miPrimeraFuncion', () => {
+    spyOn(console, 'log');
+    component.miPrimeraFuncion();
+    expect(console.log).toHaveBeenCalledWith("¡Hola desde mi primera función en Angular!");
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, FirstProject');
+  it('should increment the count when calling increment', () => {
+    component.count = 0;
+    component.increment();
+    expect(component.count).toEqual(1);
+  });
+
+  it('should decrement the count when calling decrement', () => {
+    component.count = 1;
+    component.decrement();
+    expect(component.count).toEqual(0);
+  });
+
+  it('should not decrement the count below zero', () => {
+    component.count = 0;
+    component.decrement();
+    expect(component.count).toEqual(0);
   });
 });
